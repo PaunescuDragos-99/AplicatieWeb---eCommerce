@@ -1,0 +1,145 @@
+﻿@model IEnumerable<TemaPawFinal1.Models.Filme>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Filme</h1>
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>CartiLaClick</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Responsive-->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- fevicon -->
+    <link rel="icon" href="images/fevicon.png" type="image/gif" />
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+    <!-- Tweaks for older IEs-->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <!-- owl stylesheets -->
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+</head>
+
+@if (User.IsInRole("ADMIN"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+<form method="get" asp-action="Index">
+        <input type="text" placeholder="Search..." id="Empsearch" name="Empsearch" style="width 500px;" />
+        <input type="submit" value="Search" class="btn btn-primary" />
+        <a asp-action="Index">Get All</a>
+</form>
+
+
+
+<table class="table">
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            string image = " ";
+            string base64String = Convert.ToBase64String(item.Image, 0, item.Image.Length);
+            image = string.Format(" data:image/png;base64," + base64String);
+
+            <div class="col-sm-4">
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    </div>
+                }
+                <div class="single-products">
+                    <div class="productinfo text-center">
+                        <img src=@image alt="" width="500" height="500" />
+                        <p>@item.Name</p>
+                        <p>@item.Author</p>
+                        <p>@item.Aparitie</p>
+                        <p>@item.Pret</p>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a asp-action="Details" asp-route-id="@item.ID">Reviewuri</a>
+                            <a asp-action="Info" asp-route-id="@item.ID">Informatii</a>
+                            <a asp-controller="Books" asp-action="AddToCart" asp-route-id="@item.ID" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Cumpara bilet</a>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+
+        }
+
+    </tbody>
+
+
+
+   @*@section Scripts{
+            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            <script>
+            $(document).ready(function () {
+                $("#Empsearch").autocomplete({
+                    source: '/postapi/search'
+                });
+            });
+            </script>
+
+        }*@
+
+
+@section Scripts{ 
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.0.min.js" type="text/javascript"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.min.js" type="text/javascript"></script>
+    <link href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/blitzer/jquery-ui.css"
+          rel="Stylesheet" type="text/css" />
+    <script type="text/javascript">
+        $(function () {
+            $("#Empsearch").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Books/AutoComplete/',
+                        data: { "prefix": request.term },
+                        type: "POST",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item                                
+                            }))
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+
+                minLength: 1
+            });
+        });
+    </script>
+}

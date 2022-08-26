@@ -1,0 +1,71 @@
+﻿@model TemaPawFinal1.Models.Filme
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+}
+<link href="~/css/bootstrap.min.css" rel="stylesheet">
+<link href="~/css/font-awesome.min.css" rel="stylesheet">
+<link href="~/css/prettyPhoto.css" rel="stylesheet">
+<link href="~/css/price-range.css" rel="stylesheet">
+<link href="~/css/animate.css" rel="stylesheet">
+<link href="~/css/main.css" rel="stylesheet">
+<link href="~/css/responsive.css" rel="stylesheet">
+<!--[if lt IE 9]>
+<script src="js/html5shiv.js"></script>
+<script src="js/respond.min.js"></script>
+<![endif]-->
+<link rel="shortcut icon" href="images/ico/favicon.ico">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+
+
+
+<h1>Edit</h1>
+
+<h4>Filme</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Author" class="control-label"></label>
+                <input asp-for="Author" class="form-control" />
+                <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Aparitie" class="control-label"></label>
+                <input asp-for="Aparitie" class="form-control" />
+                <span asp-validation-for="Aparitie" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pret" class="control-label"></label>
+                <input asp-for="Pret" class="form-control" />
+                <span asp-validation-for="Pret" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
